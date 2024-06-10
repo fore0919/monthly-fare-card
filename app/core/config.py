@@ -1,5 +1,4 @@
 import os
-import ssl
 from typing import Any
 
 import dotenv
@@ -33,24 +32,15 @@ def get_database_uri(env: dict) -> str:
     return f"{engine}+aiomysql://{username}:{password}@{host}/{dbname}"
 
 
-def get_engine_connection_args() -> dict:
-    global app_env
-    connection_args = {}
-    if app_env != AppEnv.LOCAL:
-        connection_args = {
-            "ssl": ssl.create_default_context(
-                cafile="./app/core/rds-combined-ca-bundle.pem"
-            )
-        }
-    return connection_args
-
-
 class Settings(BaseSettings):
     model_config = {"case_sensitive": True}
 
     DB: dict = get_database()
     PROJECT_NAME: str = "monthly-fare-card"
     APP_ENV: AppEnv = AppEnv.LOCAL
+    ODSAY_API_KEY: str = (
+        os.getenv("ODSAY_API_KEY", "") if AppEnv.LOCAL else DB["ODSAY_API_KEY"]
+    )
     SQLALCHEMY_DATABASE_URI: str = get_database_uri(DB)
     SQLALCHEMY_ENGINE_OPTIONS: dict[str, Any] = {"echo": False}
     CORS_ORIGINS: list[str] = ["*"]
@@ -86,5 +76,5 @@ def init_settings() -> Settings:
         return Settings()
 
 
-ENGINE_CONNECTION_ARGS = get_engine_connection_args()
+# ENGINE_CONNECTION_ARGS = get_engine_connection_args()
 settings = init_settings()

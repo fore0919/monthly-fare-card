@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .test import test_router
+from .card import card_router
 
 v1_router = APIRouter(prefix="/v1")
-v1_router.include_router(test_router, tags=["[v1] test"])
+v1_router.include_router(card_router, tags=["[v1] Card"])

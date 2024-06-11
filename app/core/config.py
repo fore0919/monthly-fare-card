@@ -41,6 +41,11 @@ class Settings(BaseSettings):
     ODSAY_API_KEY: str = (
         os.getenv("ODSAY_API_KEY", "") if AppEnv.LOCAL else DB["ODSAY_API_KEY"]
     )
+    HOLIDAY_API_KEY: str = (
+        os.getenv("HOLIDAY_API_KEY", "")
+        if AppEnv.LOCAL
+        else DB["HOLIDAY_API_KEY"]
+    )
     SQLALCHEMY_DATABASE_URI: str = get_database_uri(DB)
     SQLALCHEMY_ENGINE_OPTIONS: dict[str, Any] = {"echo": False}
     CORS_ORIGINS: list[str] = ["*"]

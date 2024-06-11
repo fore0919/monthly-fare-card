@@ -1,10 +1,13 @@
-from .test import test_dao
+from .card import card_dao, discount_info_dao
+from .location import location_dao
 
 __all__ = ["DAOs", "v1_daos"]
 
 
 class DAOs:
-    test = test_dao
+    location = location_dao
+    card = card_dao
+    discount_info = discount_info_dao
 
 
 v1_daos = DAOs()

@@ -24,7 +24,8 @@ class CardController(ControllerBase):
         age = await get_age(user_birth_date)
         days = await get_days(year, month)
         monthly_fare = fare * days
-
+        location= await self.daos.v1.location.get(session=session,name=user_area)
+        
         return FareCardOutput(
             total_count=days,
             total_payment=monthly_fare,

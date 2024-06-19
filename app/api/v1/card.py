@@ -5,7 +5,7 @@ from app.controllers.v1 import v1_controllers as v1_con
 from app.schemas.card import FareCardInput, FareCardOutput
 from app.utils.deps import get_session
 
-test_router = router = APIRouter(prefix="/best-card")
+card_router = router = APIRouter(prefix="/best-card")
 
 
 @router.get(

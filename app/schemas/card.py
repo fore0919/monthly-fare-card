@@ -1,8 +1,9 @@
 from datetime import date
 from typing import Optional
 
-from constant.card import Location
 from pydantic import BaseModel, Field
+
+from app.constant.location import Location
 
 
 class FareCardInput(BaseModel):
@@ -27,7 +28,6 @@ class FareCardInput(BaseModel):
 class FareCardSchema(BaseModel):
     name: str = Field(description="카드명", example="K패스")
     discount_rate: int = Field(description="할인율", example="20")
-    discount_type: str = Field(description="할인 타입", example="adult")
     discounted_cost: int = Field(description="할인 금액", example="15000")
     payment: int = Field(description="할인된 요금", example="65000")
 
@@ -36,3 +36,4 @@ class FareCardOutput(BaseModel):
     total_count: int = Field(description="총 이용 횟수", example="20")
     total_payment: int = Field(description="총 이용 금액", example="80000")
     best_card: FareCardSchema
+    climate_card: FareCardSchema

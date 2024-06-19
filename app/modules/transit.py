@@ -4,7 +4,7 @@ from app.utils.exception import NotOKResponseError
 
 
 class Transit:
-    async def __init__(self) -> None:
+    def __init__(self) -> None:
         self.api_key = settings.ODSAY_API_KEY
         self.host = "https://api.odsay.com/v1/api/"
 
@@ -15,7 +15,7 @@ class Transit:
         params = {"apiKey": self.api_key, "staionName": station_name}
         response = await Http.get(url=url, params=params)
 
-        if response.status_code == 200:
+        if response[0] == 200:
             lng = response["result"]["station"][0]["x"]
             lat = response["result"]["station"][0]["y"]
             return lng, lat

@@ -1,24 +1,25 @@
 from datetime import date
 from typing import Optional
 
+from fastapi import Query
 from pydantic import BaseModel, Field
 
 from app.constant.location import Location
 
 
 class FareCardInput(BaseModel):
-    user_birth_date: str = Field(
+    user_birth_date: str = Query(
         description="사용자 생년월일 (YYYY-MM-DD)", example="1995-09-19"
     )
-    user_area: Location = Field(description="사용자 거주지역", example="서울")
-    start: str = Field(description="출발지", example="신림역")
-    end: str = Field(description="도착지", example="강남역")
-    year: Optional[str] = Field(
+    user_area: Location = Query(description="사용자 거주지역", example="서울")
+    start: str = Query(description="출발지", example="신림역")
+    end: str = Query(description="도착지", example="강남역")
+    year: Optional[str] = Query(
         description="입력 연도",
         example="2024",
         default=date.today().year,
     )
-    month: Optional[str] = Field(
+    month: Optional[str] = Query(
         description="입력 월",
         example="7",
         default=date.today().month,

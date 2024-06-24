@@ -7,15 +7,14 @@ from app.models import Card, DiscountInfo
 
 
 class CardDao(ModelMixin[Card]):
-    async def get_card(session: AsyncSession, location_id: int) -> Card:
-        card = await session.scalar(
+    async def get_card(self, session: AsyncSession, location_id: int) -> Card:
+        return await session.scalar(
             select(Card)
             .where(Card.location_id == location_id)
             .options(joinedload(Card.discount_info))
         )
-        return card
 
-    async def get_climate_card(session: AsyncSession) -> Card:
+    async def get_climate_card(self, session: AsyncSession) -> Card:
         card = await session.scalar(
             select(Card)
             .where(Card.location_id.is_(None))

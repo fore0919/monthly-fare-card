@@ -12,10 +12,10 @@ class Transit:
         self, station_name: str
     ) -> tuple[float, float]:
         url = self.host + "searchStation"
-        params = {"apiKey": self.api_key, "staionName": station_name}
-        response = await Http.get(url=url, params=params)
+        params = {"apiKey": self.api_key, "stationName": station_name}
+        status_code, response = await Http.get(url=url, params=params)
 
-        if response[0] == 200:
+        if status_code == 200:
             lng = response["result"]["station"][0]["x"]
             lat = response["result"]["station"][0]["y"]
             return lng, lat
@@ -33,10 +33,10 @@ class Transit:
             "EX": ex,
             "EY": ey,
         }
-        response = await Http.get(url=url, params=params)
+        status_code, response = await Http.get(url=url, params=params)
 
         # 요청에 성공하면, 응답에서 토큰 추출
-        if response.status_code == 200:
+        if status_code == 200:
             payment = response["result"]["path"][0]["info"]["payment"]
             return payment
         else:

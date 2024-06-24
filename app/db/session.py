@@ -4,7 +4,7 @@ from app.core.config import settings
 
 engine = create_async_engine(
     settings.SQLALCHEMY_DATABASE_URI,
-    # connect_args=ENGINE_CONNECTION_ARGS,
+    connect_args={},
     pool_pre_ping=True,
     **settings.SQLALCHEMY_ENGINE_OPTIONS
 )

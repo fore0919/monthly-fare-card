@@ -5,7 +5,7 @@ from app.modules.holiday import Holiday
 
 async def get_days(year: str, month: str) -> int:
     count = 0
-    first_day, last_day = calendar.monthrange(year, month)[1]
+    first_day, last_day = calendar.monthrange(int(year), int(month))
     dates = [
         (first_day + last_day(days=i)).strftime("%Y-%m-%d")
         for i in range((last_day - first_day).days + 1)

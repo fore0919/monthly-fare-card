@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 async def get_age(birth_day: str) -> int:
-    birth = datetime.strptime(birth_day, "%Y-%m-%d").date()
+    birth = datetime.strptime(birth_day, "%Y%m%d").date()
     today = datetime.today()
     year = today.year - birth.year
     if today.month < birth.year:

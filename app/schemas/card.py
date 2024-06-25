@@ -2,14 +2,14 @@ from datetime import date
 from typing import Optional
 
 from fastapi import Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from app.constant.location import Location
 
 
 class FareCardInput(BaseModel):
     user_birth_date: str = Query(
-        description="사용자 생년월일 (YYYY-MM-DD)", example="1995-09-19"
+        description="사용자 생년월일 (YYYYMMDD)", example="19950919"
     )
     user_area: Location = Query(description="사용자 거주지역", example="서울")
     start: str = Query(description="출발지", example="신림역")
@@ -25,10 +25,15 @@ class FareCardInput(BaseModel):
         default=date.today().month,
     )
 
+    @field_validator("month")
+    def month_parser(cls, v: str) -> str:
+        if not v.startswith("0"):
+            return "0" + v
+
 
 class FareCardSchema(BaseModel):
     name: str = Field(description="카드명", example="K패스")
-    discount_rate: int = Field(description="할인율", example="20")
+    discount_rate: str | None = Field(description="할인율", example="20")
     discounted_cost: int = Field(description="할인 금액", example="15000")
     payment: int = Field(description="할인된 요금", example="65000")
 

@@ -1,20 +1,34 @@
 import calendar
+from datetime import date, datetime, timedelta
+from typing import Any
 
 from app.modules.holiday import Holiday
 
 
 async def get_days(year: str, month: str) -> int:
     count = 0
-    first_day, last_day = calendar.monthrange(int(year), int(month))
+    _, last_day = calendar.monthrange(int(year), int(month))
+    first_date = date(year=int(year), month=int(month), day=1)
+    last_date = date(year=int(year), month=int(month), day=last_day)
     dates = [
-        (first_day + last_day(days=i)).strftime("%Y-%m-%d")
-        for i in range((last_day - first_day).days + 1)
+        (first_date + timedelta(days=i))
+        for i in range((last_date - first_date).days + 1)
     ]
     h = Holiday()
-    monthly_holidays = await h.get_holidays(month)
-    for date in dates:
-        if date.weekday() >= 5:
+    monthly_holidays = await h.get_holidays(year, month)
+    holidays = await parse_holidays(monthly_holidays)
+    for d in dates:
+        if d.weekday() < 5:
             count += 1
-        if date in monthly_holidays:
+        if d in holidays:
             count -= 1
     return count
+
+
+async def parse_holidays(dates: list[str | None]) -> list[date | None]:
+    holidays = []
+    if dates:
+        for d in dates:
+            _date = datetime.strptime(str(d["locdate"]), "%Y%m%d")
+            holidays.append(_date.date())
+    return holidays

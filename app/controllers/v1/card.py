@@ -42,10 +42,10 @@ class CardController(ControllerBase):
         monthly_fare = fare * used_count
 
         if used_count > card.min_count:
-            if age >= card.youth_age:
+            if age <= card.youth_age:
                 discount_rate = card.discount_info.youth
                 climate_card_discount = climate_card.discount_info.youth
-            elif age <= card.senior_age:
+            elif age >= card.senior_age:
                 discount_rate = card.discount_info.senior
             else:
                 discount_rate = card.discount_info.adult
@@ -54,8 +54,6 @@ class CardController(ControllerBase):
 
         discounted_cost = monthly_fare * discount_rate / 100.0
         payment = monthly_fare - discounted_cost + (additional_count * fare)
-
-        # TODO 기후동행 못쓰는 노선 추가
 
         return FareCardOutput(
             total_count=days,
@@ -68,7 +66,7 @@ class CardController(ControllerBase):
             ),
             climate_card=FareCardSchema(
                 name=climate_card.name,
-                discount_rate=climate_card_discount,
+                discount_rate=None,
                 discounted_cost=climate_card_discount,
                 payment=climate_card.min_cost - climate_card_discount,
             ),

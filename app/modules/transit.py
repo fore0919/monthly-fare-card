@@ -1,6 +1,6 @@
 from app.core.config import settings
 from app.helper.http import Http
-from app.utils.exception import NotOKResponseError
+from app.utils.exception import DataNotFoundError, NotOKResponseError
 
 
 class Transit:
@@ -9,13 +9,23 @@ class Transit:
         self.host = "https://api.odsay.com/v1/api/"
 
     async def get_coordinate_by_station_name(
-        self, station_name: str
+        self,
+        station_name: str,
+        station_type: str,
     ) -> tuple[float, float]:
         url = self.host + "searchStation"
-        params = {"apiKey": self.api_key, "stationName": station_name}
+        params = {
+            "apiKey": self.api_key,
+            "stationName": station_name,
+            "stationClass": station_type,
+        }
         status_code, response = await Http.get(url=url, params=params)
 
         if status_code == 200:
+            if not response["result"]["station"]:
+                raise DataNotFoundError(
+                    "역 또는 정류장 정보를 찾을 수 없습니다."
+                )
             lng = response["result"]["station"][0]["x"]
             lat = response["result"]["station"][0]["y"]
             return lng, lat
@@ -35,8 +45,9 @@ class Transit:
         }
         status_code, response = await Http.get(url=url, params=params)
 
-        # 요청에 성공하면, 응답에서 토큰 추출
         if status_code == 200:
+            if not response["result"]["path"]:
+                raise DataNotFoundError("좌표 정보를 찾을 수 없습니다.")
             payment = response["result"]["path"][0]["info"]["payment"]
             return payment
         else:

@@ -21,9 +21,11 @@ class Holiday:
         status_code, response = await Http.get(url=url, params=params)
 
         if status_code == 200:
-            holidays = response["response"]["body"]["items"]["item"]
-            if response["response"]["body"]["totalCount"] <= 1:
-                return [holidays]
+            holidays = []
+            if response["response"]["body"]["totalCount"] == 1:
+                holidays.append(response["response"]["body"]["items"]["item"])
+            elif response["response"]["body"]["totalCount"] >= 2:
+                holidays.extend(response["response"]["body"]["items"]["item"])
             return holidays
         else:
             raise NotOKResponseError()

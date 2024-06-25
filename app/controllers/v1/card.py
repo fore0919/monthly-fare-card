@@ -63,11 +63,13 @@ class CardController(ControllerBase):
                 discount_rate=f"{discount_rate} %",
                 discounted_cost=discounted_cost,
                 payment=payment,
+                fare=fare,
             ),
             climate_card=FareCardSchema(
                 name=climate_card.name,
                 discount_rate=None,
                 discounted_cost=climate_card_discount,
                 payment=climate_card.min_cost - climate_card_discount,
+                fare=None,
             ),
         )

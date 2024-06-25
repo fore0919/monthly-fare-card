@@ -19,6 +19,16 @@ class BaseException(Exception):
         self.additional_data = data
 
 
+class DataNotFoundError(BaseException):
+    message = "데이터를 찾을 수 없습니다."
+    error_no = 101
+
+
+class InvalidValueError(BaseException):
+    message = "입력값이 유효하지 않습니다."
+    error_no = 102
+
+
 class NotOKResponseError(BaseException):
     code: int = 500
     error_no: int = 500

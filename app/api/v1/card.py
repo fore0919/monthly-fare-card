@@ -21,7 +21,9 @@ async def get_best_card(
     input_data: FareCardInput = Depends(FareCardInput),
 ) -> FareCardOutput:
     fare = await v1_con.poi_con.get_payment_by_poi(
-        start=input_data.start, end=input_data.end
+        start=input_data.start,
+        end=input_data.end,
+        station_type=input_data.station_type,
     )
     result = await v1_con.card_con.get_bast_card(
         session=session,

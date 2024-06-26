@@ -30,4 +30,5 @@
 - Database: `MySQL` 8.4.0 by `Kubernetes` (local) / `MariaDB` 11.2 (prod)
 - Framework: `fastapi`
 - Deploy: `CloudType`
+- CI/CD: `Github Action`
 </br>

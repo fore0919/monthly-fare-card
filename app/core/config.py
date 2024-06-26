@@ -22,11 +22,11 @@ def get_database_uri(env: dict) -> str:
         local_url = os.getenv("DATABASE_URI", "")
         return local_url
 
-    engine = os.getenv["engine"]
-    password = os.getenv["password"]
-    host = os.getenv["host"]
-    dbname = os.getenv["dbname"]
-    username = os.getenv["username"]
+    engine = os.getenv("engine")
+    password = os.getenv("password")
+    host = os.getenv("host")
+    dbname = os.getenv("dbname")
+    username = os.getenv("username")
     return f"{engine}+aiomysql://{username}:{password}@{host}/{dbname}"
 
 

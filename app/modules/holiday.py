@@ -1,5 +1,3 @@
-from datetime import date
-
 from app.core.config import settings
 from app.helper.http import Http
 from app.utils.exception import NotOKResponseError

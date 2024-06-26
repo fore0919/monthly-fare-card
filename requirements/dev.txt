@@ -1,5 +1,0 @@
--r prod.txt
-
-black
-mypy
-flake8

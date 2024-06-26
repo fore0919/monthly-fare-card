@@ -1,5 +1,6 @@
 description = """
 ## 교통 카드 추천 API
+github_link : https://github.com/fore0919/monthly-fare-card
 """
 fare_card = """
 ### 평균 한달 출근 시 교통카드 할인액을 계산하는 API

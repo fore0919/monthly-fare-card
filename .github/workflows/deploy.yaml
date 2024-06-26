@@ -1,0 +1,51 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: gms02294/monthly-fare-card
+          stage: main
+          yaml: |
+            name: monthly-fare-card
+            app: python@3.11
+            options:
+              env:
+                - name: HOLIDAY_API_KEY
+                  secret: HOLIDAY_API_KEY
+                - name: ODSAY_API_KEY
+                  secret: ODSAY_API_KEY
+                - name: engine
+                  value: mariadb
+                - name: password
+                  secret: mariadb-user-password
+                - name: host
+                  secret: host
+                - name: dbname
+                  value: monthly-fare-card
+                - name: username
+                  secret: username
+              ports: 8000
+              start: uvicorn app.app:app --host=0.0.0.0 --port=8000
+              buildenv:
+                - name: APP_ENV
+                  value: prod
+              healthz: /healthz
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}

@@ -1,10 +1,11 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 
 from app.core.blueprint import register_router
 from app.core.config import settings
 from app.core.cors import add_cors
 from app.core.docs import description, tags_metadata
 from app.core.errorhandler import register_exception_handlers
+from app.modules.request import log_request
 
 
 def create_application() -> FastAPI:

@@ -73,3 +73,6 @@ class CardController(ControllerBase):
                 fare=None,
             ),
         )
+
+    async def write_log(self, session: AsyncSession, data: dict) -> None:
+        await self.daos.v1.log.create(session=session, data=data)

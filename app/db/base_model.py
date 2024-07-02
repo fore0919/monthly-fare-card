@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Annotated
 
-from sqlalchemy import String
+from sqlalchemy import String, func
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, registry
 
@@ -30,7 +30,7 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 class TimeStamps:
     created_at: Mapped[datetime] = mapped_column(
-        default=datetime.now(), comment="생성시각"
+        default=datetime.now(), server_default=func.now(), comment="생성시각"
     )
     updated_at: Mapped[datetime | None] = mapped_column(comment="수정시각")
     removed_at: Mapped[datetime | None] = mapped_column(comment="삭제시각")

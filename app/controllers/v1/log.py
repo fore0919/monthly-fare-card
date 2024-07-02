@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.controllers.base import ControllerBase
@@ -15,4 +17,5 @@ class LogController(ControllerBase):
             remote_addr=log.client_ip,
             url=log.url,
             method=log.method,
+            created_at=datetime.now(),
         )

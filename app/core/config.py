@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     APP_ENV: AppEnv = AppEnv.LOCAL
     ODSAY_API_KEY: str = os.getenv("ODSAY_API_KEY", "")
     HOLIDAY_API_KEY: str = os.getenv("HOLIDAY_API_KEY", "")
+    TMAP_API_KEY: str = os.getenv("TMAP_API_KEY", "")
     SQLALCHEMY_DATABASE_URI: str = get_database_uri(ENV)
     SQLALCHEMY_ENGINE_OPTIONS: dict[str, Any] = {"echo": False}
     CORS_ORIGINS: list[str] = ["*"]

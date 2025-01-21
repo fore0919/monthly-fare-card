@@ -14,11 +14,14 @@ class FareCardInput(BaseModel):
         example="19900101",
     )
     user_area: Location = Query(description="사용자 거주지역", example="서울")
-    station_type: StationType = Query(
-        description="대중교통 종류", example="지하철"
+    start_station_type: StationType = Query(
+        description="출발지 종류", example="지하철", default="전체"
     )
     start: str = Query(description="출발지", default="합정", example="합정")
     end: str = Query(description="도착지", default="강남", example="강남")
+    end_station_type: StationType = Query(
+        description="도착지 종류", example="버스", default="전체"
+    )
     year: Optional[str] = Query(
         description="입력 연도",
         example="2024",

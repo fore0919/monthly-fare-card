@@ -1,0 +1,44 @@
+{
+    "cards": [
+        {
+            "id": 1,
+            "name": "K-패스",
+            "max_count": 60,
+            "min_count": 15,
+            "youth_age": 34,
+            "min_cost": 0,
+            "location_id": 1,
+            "senior_age": 65
+        },
+        {
+            "id": 2,
+            "name": "인천I패스",
+            "max_count": null,
+            "min_count": 15,
+            "youth_age": 39,
+            "min_cost": 0,
+            "location_id": 3,
+            "senior_age": 65
+        },
+        {
+            "id": 3,
+            "name": "The경기패스",
+            "max_count": null,
+            "min_count": 15,
+            "youth_age": 39,
+            "min_cost": 0,
+            "location_id": 2,
+            "senior_age": 65
+        },
+        {
+            "id": 4,
+            "name": "기후동행카드",
+            "max_count": null,
+            "min_count": 0,
+            "youth_age": 34,
+            "min_cost": 62000,
+            "location_id": null,
+            "senior_age": 65
+        }
+    ]
+}

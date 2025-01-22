@@ -9,6 +9,9 @@ from app.schemas.card import FareCardOutput, FareCardSchema
 
 if TYPE_CHECKING:
     from app.models import Card, Location
+else:
+    from app.models.card import Card
+    from app.models.location import Location
 
 
 class CardController(ControllerBase):
@@ -30,7 +33,6 @@ class CardController(ControllerBase):
         climate_card: Card = await self.daos.v1.card.get_climate_card(
             session=session
         )
-
         age = await get_age(user_birth_date)
         days = await get_days(year, month)
         used_count = days * 2
@@ -43,12 +45,12 @@ class CardController(ControllerBase):
 
         if used_count > card.min_count:
             if age <= card.youth_age:
-                discount_rate = card.discount_info.youth
-                climate_card_discount = climate_card.discount_info.youth
+                discount_rate = card.youth
+                climate_card_discount = climate_card.youth
             elif age >= card.senior_age:
-                discount_rate = card.discount_info.senior
+                discount_rate = card.senior
             else:
-                discount_rate = card.discount_info.adult
+                discount_rate = card.adult
         else:
             discount_rate = 0
 

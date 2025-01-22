@@ -1,3 +1,3 @@
-from .card import Card, DiscountInfo
+from .card import Card
 from .location import Location
 from .log import Log

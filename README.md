@@ -1,4 +1,4 @@
-> ODsayAPI 무료 사용기간 만료로 API가 동작하지 않을 수 있습니다
+> ODsayAPI 무료 사용기간 만료로 TMAP API로 교체했습니다.
 
 # 이달의 교통카드
 사용자가 생년월일과 출발지/도착지 (지하철역, 버스정류장)을 입력하면 평일기준 왕복 출퇴근시 예상 교통비를 계산하는
@@ -22,8 +22,8 @@
 
 ## OpenAPI
 사용된 OpenAPI 목록 
-- [[ODsay]대중교통 정류장 검색 API](https://lab.odsay.com/guide/releaseReference#searchStation)
-- [[ODsay]대중교통 길찾기 API](https://lab.odsay.com/guide/releaseReference#searchPubTransPathT)
+- [[TMAP]대중교통 정류장 검색 API](https://transit.tmapmobility.com/sample/routes)
+- [[TMAP]대중교통 길찾기 API](https://tmap-skopenapi.readme.io/reference/%EC%9E%A5%EC%86%8C%ED%86%B5%ED%95%A9%EA%B2%80%EC%83%89)
 - [[공공데이터 포털]공휴일 정보 조회 API](https://www.data.go.kr/data/15012690/openapi.do)
 </br>
 

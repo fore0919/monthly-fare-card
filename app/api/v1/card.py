@@ -37,8 +37,9 @@ async def get_best_card(
         year=input_data.year,
         month=input_data.month,
     )
-    await v1_con.log_con.write_log(
-        session=session, log=log, data=input_data.json()
-    )
-    await session.commit()
+    if session:
+        await v1_con.log_con.write_log(
+            session=session, log=log, data=input_data.json()
+        )
+        await session.commit()
     return result

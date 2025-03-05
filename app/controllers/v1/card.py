@@ -21,6 +21,7 @@ class CardController(ControllerBase):
         user_birth_date: str,
         user_area: str,
         fare: int,
+        distance: float,
         year: str,
         month: str,
     ) -> FareCardOutput:
@@ -60,6 +61,7 @@ class CardController(ControllerBase):
         return FareCardOutput(
             total_count=days,
             total_payment=monthly_fare,
+            total_distance=distance,
             best_card=FareCardSchema(
                 name=card.name,
                 discount_rate=f"{discount_rate} %",

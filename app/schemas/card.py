@@ -14,14 +14,8 @@ class FareCardInput(BaseModel):
         example="19900101",
     )
     user_area: Location = Query(description="사용자 거주지역", example="서울")
-    start_station_type: StationType = Query(
-        description="출발지 종류", example="지하철", default="전체"
-    )
     start: str = Query(description="출발지", default="합정", example="합정")
     end: str = Query(description="도착지", default="강남", example="강남")
-    end_station_type: StationType = Query(
-        description="도착지 종류", example="버스", default="전체"
-    )
     year: Optional[str] = Query(
         description="입력 연도",
         example="2024",
@@ -39,6 +33,15 @@ class FareCardInput(BaseModel):
             return "0" + v
 
 
+class FareCardInputSchema(FareCardInput):
+    start_station_type: StationType = Query(
+        description="출발지 종류", example="지하철", default="전체"
+    )
+    end_station_type: StationType = Query(
+        description="도착지 종류", example="버스", default="전체"
+    )
+
+
 class FareCardSchema(BaseModel):
     name: str = Field(description="카드명", example="K패스")
     discount_rate: str | None = Field(description="할인율", example="20")
@@ -50,5 +53,6 @@ class FareCardSchema(BaseModel):
 class FareCardOutput(BaseModel):
     total_count: int = Field(description="총 이용 횟수", example=20)
     total_payment: int = Field(description="총 이용 금액", example=80000)
+    total_distance: float = Field(description="총 이동 거리", example=20.0)
     best_card: FareCardSchema
     climate_card: FareCardSchema

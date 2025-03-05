@@ -5,22 +5,20 @@ from pydantic_settings import BaseSettings
 
 from app.constant.app_env import AppEnv
 
-app_env = os.getenv("APP_ENV", AppEnv.LOCAL)
+app_env = os.getenv("APP_ENV", AppEnv.LOCAL.value)
 
 
-def get_env() -> dict:
-    global app_env
-    if app_env == AppEnv.PROD:
-        env = {"ENV": "PROD"}
-    else:
-        env = {}
-    return env
+def get_env() -> str:
+    for env in AppEnv:
+        if env.value == app_env:
+            return env.value
+    return AppEnv.LOCAL.value
 
 
-def get_database_uri(env: dict) -> str:
-    if not env:
-        local_url = os.getenv("DATABASE_URI", "")
-        return local_url
+def get_database_uri() -> str:
+    env = get_env()
+    if env == AppEnv.LOCAL.value:
+        return os.getenv("DATABASE_URI", "")
 
     engine = os.getenv("engine")
     password = os.getenv("password")
@@ -33,13 +31,13 @@ def get_database_uri(env: dict) -> str:
 class Settings(BaseSettings):
     model_config = {"case_sensitive": True}
 
-    ENV: dict = get_env()
+    ENV: str = get_env()
     PROJECT_NAME: str = "monthly-fare-card"
     APP_ENV: AppEnv = AppEnv.LOCAL
     ODSAY_API_KEY: str = os.getenv("ODSAY_API_KEY", "")
     HOLIDAY_API_KEY: str = os.getenv("HOLIDAY_API_KEY", "")
     TMAP_API_KEY: str = os.getenv("TMAP_API_KEY", "")
-    SQLALCHEMY_DATABASE_URI: str = get_database_uri(ENV)
+    SQLALCHEMY_DATABASE_URI: str = get_database_uri()
     SQLALCHEMY_ENGINE_OPTIONS: dict[str, Any] = {"echo": False}
     CORS_ORIGINS: list[str] = ["*"]
     CORS_METHODS: list[str] = [

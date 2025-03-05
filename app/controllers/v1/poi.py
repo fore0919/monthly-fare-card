@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.controllers.base import ControllerBase
 from app.models.station import StationLine
 from app.modules.transit import Transit
+from app.utils.exception import InvalidValueError
 
 
 class PoiController(ControllerBase):
@@ -46,8 +47,7 @@ class PoiController(ControllerBase):
         departure_id = station_name_to_id.get(start)
         arrival_id = station_name_to_id.get(end)
         if departure_id is None or arrival_id is None:
-            # TODO : 예외 처리
-            raise ValueError("Invalid station name")
+            raise InvalidValueError("역 정보를 찾을 수 없습니다.")
 
         graph = self._build_graph(
             station_lines=station_lines, transfer_cost=0.0
@@ -148,26 +148,31 @@ class PoiController(ControllerBase):
         :param goal_station: 도착역의 station_id
         :return: (최단 거리, 경로 (노드 튜플 리스트))
         """
-        dist = {}
+        dist: dict[tuple[int, int], tuple[int, float]] = {}
         prev = {}
         heap = []
         for node in start_nodes:
-            dist[node] = 0
-            heapq.heappush(heap, (0, node))
+            dist[node] = (0, 0.0)
+            heapq.heappush(heap, (0, 0.0, node))
         goal_node = None
         while heap:
-            cur_dist, u = heapq.heappop(heap)
-            if cur_dist > dist[u]:
+            trans, cur_dist, u = heapq.heappop(heap)
+            if (trans, cur_dist) > dist[u]:
                 continue
             if u[0] == goal_station:
                 goal_node = u
                 break
             for v, weight in graph.get(u, []):
+                additional_transfer = (
+                    1 if (u[0] == v[0] and u[1] != v[1]) else 0
+                )
+                new_trans = trans + additional_transfer
                 new_dist = cur_dist + float(weight)
-                if v not in dist or new_dist < dist[v]:
-                    dist[v] = new_dist
+                new_cost = (new_trans, new_dist)
+                if v not in dist or new_cost < dist[v]:
+                    dist[v] = new_cost
                     prev[v] = u
-                    heapq.heappush(heap, (new_dist, v))
+                    heapq.heappush(heap, (new_trans, new_dist, v))
         if goal_node is None:
             return float("inf"), []
         path = []
@@ -177,4 +182,5 @@ class PoiController(ControllerBase):
             node = prev[node]
         path.append(node)
         path.reverse()
-        return dist[goal_node], path
+        final_distance = math.floor(dist[goal_node][1] * 100) / 100
+        return final_distance, path

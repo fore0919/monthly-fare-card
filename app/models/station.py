@@ -10,10 +10,10 @@ class Station(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     station_name: Mapped[str] = mapped_column(nullable=False)
     is_departure_allowed: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, default=False
+        Boolean, nullable=False, default=True
     )
     is_arrival_allowed: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, default=False
+        Boolean, nullable=False, default=True
     )
     station_lines: Mapped[list["StationLine"]] = relationship(
         "StationLine", back_populates="station"
@@ -34,13 +34,11 @@ class Line(Base):
 class StationLine(Base):
     __tablename__ = "station_line"
 
-    id: Mapped[int] = mapped_column("station_line_id", primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     station_id: Mapped[int] = mapped_column(
-        ForeignKey("station.station_id"), nullable=False
+        ForeignKey("stations.id"), nullable=False
     )
-    line_id: Mapped[int] = mapped_column(
-        ForeignKey("line.line_id"), nullable=False
-    )
+    line_id: Mapped[int] = mapped_column(ForeignKey("lines.id"), nullable=False)
     sequence: Mapped[int] = mapped_column(nullable=False)
     distance_from_prev: Mapped[float] = mapped_column(
         DECIMAL(5, 2), nullable=True

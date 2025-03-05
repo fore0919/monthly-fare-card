@@ -39,11 +39,16 @@ class Transit:
             lat = response["searchPoiInfo"]["pois"]["poi"][0]["frontLat"]
             return lng, lat
         else:
-            raise NotOKResponseError()
+            raise NotOKResponseError(
+                url=url,
+                response_status_code=status_code,
+                request_data=params,
+                response_data=response["error"],
+            )
 
     async def get_payment_by_coordinate(
         self, sx: float, sy: float, ex: float, ey: float
-    ) -> int:
+    ) -> tuple[int, float]:
         url = self.host + "/transit/routes"
         headers = {
             "Accept": "application/json",
@@ -65,7 +70,10 @@ class Transit:
             payment = response["metaData"]["plan"]["itineraries"][0]["fare"][
                 "regular"
             ]["totalFare"]
-            return payment
+            distance = response["metaData"]["plan"]["itineraries"][0][
+                "totalDistance"
+            ]
+            return payment, distance
         else:
             raise NotOKResponseError(
                 url=url,

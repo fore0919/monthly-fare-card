@@ -1,10 +1,26 @@
-from fastapi import APIRouter
+from pathlib import Path
+
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.db.insert import bulk_insert_station_data
+from app.utils.deps import get_session
 
 test_router = APIRouter()
 
 
 @test_router.get("/healthz")
-def health_check() -> dict[str, bool]:
+async def health_check() -> dict[str, bool]:
+    return {"success": True}
+
+
+@test_router.get("/csv")
+async def csv_insert(
+    session: AsyncSession = Depends(get_session),
+) -> dict[str, bool]:
+    project_root = Path(__file__).resolve().parent.parent.parent
+    input_file = project_root / "db" / "csv" / "240810.csv"
+    await bulk_insert_station_data(session=session, file_path=input_file)
     return {"success": True}
 
 

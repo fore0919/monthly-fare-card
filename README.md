@@ -1,34 +1,39 @@
 # 이달의 교통카드
+> 🚀 Swagger Link: [monthly-fare-card](https://port-0-monthly-fare-card-lxvf8lgx584ba9bc.sel5.cloudtype.app/docs#/)
+
+</br>
+
+## 1. Introduction
 사용자가 생년월일과 출발지/도착지 (지하철역, 버스정류장)을 입력하면 평일기준 왕복 출퇴근시 예상 교통비를 계산하는
 기능을 가진 토이 프로젝트 입니다.
 
-> Swagger Link: [monthly-fare-card](https://port-0-monthly-fare-card-lxvf8lgx584ba9bc.sel5.cloudtype.app/docs#/)
 </br>
 
-## Description
-**[공통]**
+## 2. Description
+
+📌 **[GET]**`v1/best-card/`
+- `TMAP API`를 이용해 역명으로 좌표를 검색하고 해당 좌표로 대중교통 길찾기 API를 호출해 응답받은 데이터를 가공해서 데이터를 반환합니다. 
+
+📌 **[GET]**`v1/best-card/db`
+- 역간거리 및 소요시간 정보 `OPEN DATA`를 DB에 저장 후 `다익스트라 알고리즘`을 적용해 직접 최단거리와 요금을 계산하는 API를 추가했습니다.위의 API에서 응답하는 데이터와 비교해볼 수 있습니다.
+- 데이터가 1~8호선 정보밖에 제공하지 않으므로 해당 노선안에서 이동하는 경로만 제공합니다.
+
+📌 **[공통]**
 - 한달 기준 주말, 국경일, 공휴일을 자동으로 제외해줍니다.
 - 왕복을 기준으로 계산합니다.
 - 생년월일에 따른 할인율을 계산합니다.
 - 응답으로 오는 기후동행카드 데이터와 비교할 수 있습니다.
 
-
-**[GET]**`v1/best-card/`
-- TMAP API를 이용해 역명으로 좌표를 검색하고 해당 좌표로 대중교통 길찾기 API를 호출해 응답받은 데이터를 가공해서 데이터를 반환합니다. 
-
-**[GET]**`v1/best-card/db`
-- 역간거리 및 소요시간 정보 OPEN DATA를 DB에 저장 후 다익스트라 알고리즘을 적용해 직접 최단거리와 요금을 계산하는 API를 추가했습니다.위의 API에서 응답하는 데이터와 비교해볼 수 있습니다.
-- 데이터가 1~8호선 정보밖에 제공하지 않으므로 해당 노선안에서 이동하는 경로만 제공합니다.
-
+  
 </br>
 
-## ERD 
+## 3. ERD 
 ![monthly-fare-card (1)](https://github.com/user-attachments/assets/4aa26dcb-624b-43fe-b7b7-e5b31cb1120f)
 
 
 </br>
 
-## OpenAPI
+## 4. OpenAPI
 사용된 OpenAPI 목록 
 - [[TMAP]대중교통 정류장 검색 API](https://transit.tmapmobility.com/sample/routes)
 - [[TMAP]대중교통 길찾기 API](https://tmap-skopenapi.readme.io/reference/%EC%9E%A5%EC%86%8C%ED%86%B5%ED%95%A9%EA%B2%80%EC%83%89)
@@ -36,7 +41,7 @@
 - [[서울교통공사] 역간거리 및 소요시간 정보 OPEN DATA](https://data.seoul.go.kr/dataList/OA-12034/S/1/datasetView.do)
 </br>
 
-## Spec
+## 5. Spec
 - Language: `python` 3.11.5
 - Database: `MySQL` 8.4.0 by `Kubernetes` (local) / `MariaDB` 11.2 (prod)
 - Framework: `fastapi`
@@ -44,7 +49,7 @@
 - CI/CD: `Github Action`
 </br>
 
-## 회고
+## 6. 회고
 
 > 현재는 ODsayAPI를 사용하지 않습니다.
 

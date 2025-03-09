@@ -29,6 +29,8 @@ jobs:
                   secret: HOLIDAY_API_KEY
                 - name: ODSAY_API_KEY
                   secret: ODSAY_API_KEY
+                - name: TMAP_API_KEY
+                  secret: TMAP_API_KEY
                 - name: engine
                   value: mariadb
                 - name: password

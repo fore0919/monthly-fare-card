@@ -35,8 +35,8 @@
 
 ## 4. OpenAPI
 사용된 OpenAPI 목록 
-- [[TMAP]대중교통 정류장 검색 API](https://transit.tmapmobility.com/sample/routes)
-- [[TMAP]대중교통 길찾기 API](https://tmap-skopenapi.readme.io/reference/%EC%9E%A5%EC%86%8C%ED%86%B5%ED%95%A9%EA%B2%80%EC%83%89)
+- [[TMAP]대중교통 정류장 검색 API](https://tmap-skopenapi.readme.io/reference/%EC%9E%A5%EC%86%8C%ED%86%B5%ED%95%A9%EA%B2%80%EC%83%89)
+- [[TMAP]대중교통 길찾기 API](https://transit.tmapmobility.com/sample/routes)
 - [[공공데이터 포털]공휴일 정보 조회 API](https://www.data.go.kr/data/15012690/openapi.do)
 - [[서울교통공사] 역간거리 및 소요시간 정보 OPEN DATA](https://data.seoul.go.kr/dataList/OA-12034/S/1/datasetView.do)
 </br>

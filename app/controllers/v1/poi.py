@@ -82,10 +82,10 @@ class PoiController(ControllerBase):
         if distance <= 10:
             fare = base_fare
         elif distance <= 50:
-            additional_units = math.floor((distance - 10) / 5)
+            additional_units = math.ceil((distance - 10) / 5)
             fare = base_fare + additional_units * 100
         else:
-            additional_units = math.floor((50 - 10) / 5)
+            additional_units = math.ceil((50 - 10) / 5)
             fare = base_fare + additional_units * 100
 
         if transfer_applied:
